@@ -24,7 +24,7 @@ public class SquirrelInABottle : AncientsAwakenedRelic
     public override async Task BeforeHandDraw(
         Player player,
         PlayerChoiceContext choiceContext,
-        ICombatState combatState)
+        CombatState combatState)
     {
         if (player != Owner || combatState.RoundNumber != 1)
             return;
@@ -32,6 +32,6 @@ public class SquirrelInABottle : AncientsAwakenedRelic
         List<CardModel> cards = new List<CardModel>();
         cards.Add(Owner.Creature.CombatState.CreateCard<Squirrel>(Owner));
         
-        await CardPileCmd.AddGeneratedCardsToCombat(cards, PileType.Hand, Owner);
+        await CardPileCmd.AddGeneratedCardsToCombat(cards, PileType.Hand, true);
     }
 }

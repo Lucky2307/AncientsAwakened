@@ -28,8 +28,8 @@ public class LunaticRitual() : AncientsAwakenedCard(1,
         CardPlay play)
     {
         await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
-        await PowerCmd.Apply<RitualPower>(choiceContext, Owner.Creature, DynamicVars.Power<RitualPower>().BaseValue, Owner.Creature, this);
-        await PowerCmd.Apply<LunaticRitualPower>(choiceContext, Owner.Creature, DynamicVars.Power<LunaticRitualPower>().BaseValue, Owner.Creature, this);
+        await PowerCmd.Apply<RitualPower>(Owner.Creature, DynamicVars.Power<RitualPower>().BaseValue, Owner.Creature, this);
+        await PowerCmd.Apply<LunaticRitualPower>(Owner.Creature, DynamicVars.Power<LunaticRitualPower>().BaseValue, Owner.Creature, this);
     }
 
     protected override void OnUpgrade()

@@ -29,9 +29,9 @@ public class NebulaHammer() : AncientsAwakenedCard(1,
         await ForgeCmd.Forge(DynamicVars.Forge.IntValue, Owner, this);
     }
     
-    protected override PileType GetResultPileTypeForCardPlay()
+    protected override PileType GetResultPileType()
     {
-        PileType resultPileType = base.GetResultPileTypeForCardPlay();
+        PileType resultPileType = base.GetResultPileType();
         return resultPileType != PileType.Discard ? resultPileType : PileType.Hand;
     }
 

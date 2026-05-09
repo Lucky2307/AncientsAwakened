@@ -34,7 +34,7 @@ public class Inscrybe() : AncientsAwakenedCard(1,
 
         if (selection != null)
         {
-            await CardPileCmd.AddGeneratedCardToCombat(selection.CreateClone(), PileType.Hand, Owner);
+            await CardPileCmd.AddGeneratedCardToCombat(selection.CreateClone(), PileType.Hand, true);
         }
     }
 

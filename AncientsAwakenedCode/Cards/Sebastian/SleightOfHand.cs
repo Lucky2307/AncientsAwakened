@@ -27,8 +27,7 @@ public class SleightOfHand() : AncientsAwakenedCard(1,
         PlayerChoiceContext choiceContext,
         CardPlay play)
     {
-        await PowerCmd.Apply<PoisonPower>(choiceContext, play.Target, DynamicVars.Poison.BaseValue, Owner.Creature, this);
-        
+        await PowerCmd.Apply<PoisonPower>(play.Target, DynamicVars.Poison.BaseValue, Owner.Creature, this);
     }
 
     public override async Task AfterCardDiscarded(PlayerChoiceContext choiceContext, CardModel card)
