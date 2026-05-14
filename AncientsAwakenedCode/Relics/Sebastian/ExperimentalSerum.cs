@@ -84,15 +84,8 @@ public class ExperimentalSerum : AncientsAwakenedRelic
     public bool SetupForPlayer(Player player)
     {
         Log.Info("pre setupforplayer");
-        if (ExperimentalCards == null)
+        if (ExperimentalCards.ContainsKey(player.Character.Id))
         {
-            
-        }
-
-        if (ExperimentalCards.TryGetValue(player.Character.Id, out ModelId card))
-        {
-            AncientCard = card;
-            Log.Info(AncientCard.Entry + "post set ancientcard");
             return true;
         }
         Log.Info("failed set ancientcard");
@@ -101,6 +94,10 @@ public class ExperimentalSerum : AncientsAwakenedRelic
     
     public override async Task AfterObtained()
     {
+        if (ExperimentalCards.TryGetValue(Owner.Character.Id, out ModelId cardOut))
+        {
+            AncientCard = cardOut;
+        }
         Log.Info("afterobtained");
         //AncientCard = ExperimentalCards[Owner.Character.Id];
         CardModel card = Owner.RunState.CreateCard(SaveUtil.CardOrDeprecated(AncientCard), Owner);

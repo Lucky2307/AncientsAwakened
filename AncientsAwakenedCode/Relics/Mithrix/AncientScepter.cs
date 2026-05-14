@@ -32,7 +32,6 @@ public class AncientScepter : AncientsAwakenedRelic
             return false;
         }
         
-        AssertMutable();
         CardModel transcendenceStarterCard = GetTranscendenceStarterCard(player);
         if (transcendenceStarterCard != null)
         {
