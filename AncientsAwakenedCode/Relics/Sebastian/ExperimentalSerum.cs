@@ -1,5 +1,4 @@
 ﻿using AncientsAwakened.AncientsAwakenedCode.Cards.Sebastian;
-using AncientsAwakened.AncientsAwakenedCode.Relics;
 using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Context;
@@ -8,7 +7,6 @@ using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Relics;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.Logging;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Characters;
 using MegaCrit.Sts2.Core.Models.RelicPools;
@@ -16,13 +14,15 @@ using MegaCrit.Sts2.Core.Runs;
 using MegaCrit.Sts2.Core.Saves;
 using MegaCrit.Sts2.Core.Saves.Runs;
 
-namespace AncientsAwakened.AncientsAwakenedCode.Relics;
+namespace AncientsAwakened.AncientsAwakenedCode.Relics.Sebastian;
 
 
 [Pool(typeof(EventRelicPool))]
 public class ExperimentalSerum : AncientsAwakenedRelic
 {
     public override RelicRarity Rarity => RelicRarity.Ancient;
+    
+    public override bool HasUponPickupEffect => true;    
 
     private ModelId? _ancientCard;
     
@@ -77,29 +77,23 @@ public class ExperimentalSerum : AncientsAwakenedRelic
     
     public override bool IsAllowed(IRunState runState)
     {
-        Log.Info("isallowed called");
+        if (!IsMutable) return true;
         return LocalContext.GetMe(runState) != null && SetupForPlayer(LocalContext.GetMe(runState));
     }
     
     public bool SetupForPlayer(Player player)
     {
-        Log.Info("pre setupforplayer");
-        if (ExperimentalCards.ContainsKey(player.Character.Id))
+        if (ExperimentalCards.TryGetValue(player.Character.Id, out ModelId card))
         {
+            AncientCard = card;
             return true;
         }
-        Log.Info("failed set ancientcard");
         return false;
     }
     
     public override async Task AfterObtained()
     {
-        if (ExperimentalCards.TryGetValue(Owner.Character.Id, out ModelId cardOut))
-        {
-            AncientCard = cardOut;
-        }
-        Log.Info("afterobtained");
-        //AncientCard = ExperimentalCards[Owner.Character.Id];
+        if(AncientCard == null) SetupForPlayer(Owner); // temporary fix
         CardModel card = Owner.RunState.CreateCard(SaveUtil.CardOrDeprecated(AncientCard), Owner);
         if (card == null) return;
         CardCmd.Upgrade(card);

@@ -1,5 +1,4 @@
-﻿using AncientsAwakened.AncientsAwakenedCode.Cards;
-using AncientsAwakened.AncientsAwakenedCode.Pools;
+﻿using AncientsAwakened.AncientsAwakenedCode.Pools;
 using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -10,7 +9,7 @@ using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.Models.Cards;
 
-namespace AncientsAwakened.AncientsAwakenedCode.Cards;
+namespace AncientsAwakened.AncientsAwakenedCode.Cards.Mithrix;
 
 [Pool(typeof(NecrobinderCardPool))]
 public class EternalDefend() : AncientsAwakenedCard(1,
@@ -21,7 +20,7 @@ public class EternalDefend() : AncientsAwakenedCard(1,
     
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.Static(StaticHoverTip.SummonDynamic, DynamicVars.Summon), HoverTipFactory.FromCard<Soul>()];
     
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new SummonVar(8M), new CardsVar(1)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new SummonVar(7M), new CardsVar(1)];
     protected override HashSet<CardTag> CanonicalTags => [CardTag.Defend];
 
     protected override async Task OnPlay(
@@ -42,6 +41,6 @@ public class EternalDefend() : AncientsAwakenedCard(1,
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Summon.UpgradeValueBy(3M);
+        DynamicVars.Summon.UpgradeValueBy(2M);
     }
 }

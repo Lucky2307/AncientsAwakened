@@ -1,6 +1,5 @@
 ﻿using AncientsAwakened.AncientsAwakenedCode.Cards;
 using AncientsAwakened.AncientsAwakenedCode.Cards.Sebastian;
-using AncientsAwakened.AncientsAwakenedCode.Relics;
 using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -9,12 +8,11 @@ using MegaCrit.Sts2.Core.Entities.Relics;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.RelicPools;
-using MegaCrit.Sts2.Core.Random;
 using MegaCrit.Sts2.Core.Rewards;
 using MegaCrit.Sts2.Core.Rooms;
 using MegaCrit.Sts2.Core.Runs;
 
-namespace AncientsAwakened.AncientsAwakenedCode.Relics;
+namespace AncientsAwakened.AncientsAwakenedCode.Relics.Sebastian;
 
 
 
@@ -22,6 +20,8 @@ namespace AncientsAwakened.AncientsAwakenedCode.Relics;
 public class ShippingRequest : AncientsAwakenedRelic
 {
     public override RelicRarity Rarity => RelicRarity.Ancient;
+    
+    public override bool HasUponPickupEffect => true;
     
     protected override IEnumerable<IHoverTip> ExtraHoverTips => HoverTipFactory.FromCardWithCardHoverTips<WeighedDown>();
 
@@ -37,7 +37,6 @@ public class ShippingRequest : AncientsAwakenedRelic
     {
         if (room.RoomType != RoomType.Boss)
             return;
-        Flash();
 
         List<CardModel> removeCards = new List<CardModel>();
         
@@ -57,6 +56,7 @@ public class ShippingRequest : AncientsAwakenedRelic
         foreach (CardModel card in removeCards)
         {
             await CardPileCmd.RemoveFromDeck(card);
+            Flash();
         }
     }
     
@@ -66,8 +66,7 @@ public class ShippingRequest : AncientsAwakenedRelic
         {
             for (int i = 0; i < RewardAmount; i++)
             {
-                
-                rewards.Add(new GoldReward(Owner.RunState.Rng.Niche.NextInt(200,300), player));
+                rewards.Add(new GoldReward(Owner.RunState.Rng.Niche.NextInt(250,300), player));
                 rewards.Add(new PotionReward(player));
                 rewards.Add(new PotionReward(player));
                 rewards.Add(new RelicReward(RelicRarity.Common, player));
@@ -78,6 +77,7 @@ public class ShippingRequest : AncientsAwakenedRelic
                 rewards.Add(new CardReward(new CardCreationOptions([Owner.Character.CardPool], CardCreationSource.Other, CardRarityOddsType.RegularEncounter), 3, player));
                 rewards.Add(new CardReward(new CardCreationOptions([Owner.Character.CardPool], CardCreationSource.Other, CardRarityOddsType.RegularEncounter), 3, player));
                 rewards.Add(new CardReward(new CardCreationOptions([Owner.Character.CardPool], CardCreationSource.Other, CardRarityOddsType.RegularEncounter), 3, player));
+                rewards.Add(new CardRemovalReward(player));
                 rewards.Add(new CardRemovalReward(player));
                 rewards.Add(new CardRemovalReward(player));
             }
